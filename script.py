@@ -5,26 +5,6 @@ import os
 from datetime import datetime
 from datetime import timedelta
 
-load_dotenv()
-
-school_id = os.getenv("SCHOOL_ID")
-token = os.getenv("TOKEN")
-url = "https://asms.amandawallis.com/api/school/" + school_id
-
-headers = {"Authorization": "Bearer " + token}
-students = (requests.get(url + "/students", headers = headers).json())
-
-card_numbers = []
-
-students = students['0']
-
-for student in range (len(students)):
-	#putting card numbers into array
-	card_numbers.append(students[student]["card_number"])
-
-
-
-print(card_numbers)
 
 def format_time(time):
 	if time < 10:

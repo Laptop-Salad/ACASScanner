@@ -23,4 +23,10 @@ class APIService:
         	card_numbers.append(students[student]["card_number"])
 
         return card_numbers
+        
+    def add_card_entry (self, card_number, date, time):
+        url = self.url + "/students/" + card_number + "/card-entries"
+        myobj = {"date": date + " " + time}
 
+        response = requests.post(url, headers = self.headers , json = myobj)
+        print(response)
