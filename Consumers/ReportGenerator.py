@@ -13,19 +13,13 @@ class ReportGenerator(Consumer):
 
     def update(self, producer, *args):
         if isinstance(producer, GenerateReport):
+            print(producer.students)
+            data_for_graph = producer.students
             report = {
                        "data": [
                          {
                            "scatter-chart": {
-                             "data": [
-                               [
-                                 [
-                                   8,
-                                   23
-                                 ],
-                                 100
-                               ]
-                             ],
+                             "data": data_for_graph,
                              "name": "Correlation between student punctuality and performance",
                              "x-axis": {
                                "name": "Punctuality",
@@ -72,7 +66,7 @@ class ReportGenerator(Consumer):
                            }
                          }
                        ],
-                       "name" : "Test 1 Week Report 2"
+                       "name" : "report to look at"
                      }
 
             self.api_service.post_report(report)

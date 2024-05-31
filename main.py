@@ -29,7 +29,7 @@ report_generator = ReportGenerator(api_service)
 # Get all card numbers
 card_numbers = api_service.get_card_numbers()
 
-scanner_faker = CardScannerFaker(card_numbers, card_scanner)
+scanner_faker = CardScannerFaker(card_numbers, card_scanner, api_service, generate_report)
 
 
 ## Wiring up consumers -> producers
@@ -38,7 +38,6 @@ generate_report.add_subscriber(report_generator)
 
 ## Running faker for 4 days
 # In practice this would be wiring up our hardware listeners to the card producer
-scanner_faker.generate("31052024",4)
+scanner_faker.generate("31052024",1)
 
 ## Generating a report (todo: put in faker)
-# generate_report.click_generate()

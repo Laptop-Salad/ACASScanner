@@ -46,5 +46,13 @@ class APIService:
 
     def check_service(self):
         pass
+        
+    def get_student_points(self, card_number):
+        url = self.url + "/students/" + card_number + "/points/total"
+
+        response = requests.get(url, headers = self.headers).json()
+
+        return response['0']
+
 
 
