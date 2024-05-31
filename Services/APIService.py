@@ -13,7 +13,7 @@ class APIService:
         self.headers = {"Authorization": "Bearer " + self.token}
 
     def get_card_numbers(self):
-        student_request = requests.get(self.url + "/students", headers = self.headers).json()
+        student_request = requests.get(self.url + "/students?sort=-performance", headers = self.headers).json()
 
         card_numbers = []
 
@@ -24,9 +24,16 @@ class APIService:
 
         return card_numbers
         
-    def add_card_entry (self, card_number, date, time):
+    def post_card_entry (self, card_number, date, time):
         url = self.url + "/students/" + card_number + "/card-entries"
         myobj = {"date": date + " " + time}
 
         response = requests.post(url, headers = self.headers , json = myobj)
         print(response)
+
+    def post_report(self, data):
+        print("Uploading report...")
+        url = self.url + "/reports"
+        response = requests.post(url, headers = self.headers , json = data)
+        print(response)
+
