@@ -11,6 +11,6 @@ class LocalDBService:
         return res.fetchone()
 
     def add_known_card(self, card_number):
-       res = self.cur.execute("INSERT INTO known_cards (card_number) VALUES ( '" + card_number + "')")
-       print("Added", card_number, "to local db")
-       self.con.commit()
+        res = self.cur.execute("INSERT INTO known_cards (card_number) VALUES ( '" + card_number + "')")
+        print("Added", card_number, "to local db")
+        self.con.commit()

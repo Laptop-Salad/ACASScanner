@@ -20,7 +20,7 @@ class APIService:
         students = student_request['items']
 
         for student in range (len(students)):
-        	card_numbers.append(students[student]["card_number"])
+            card_numbers.append(students[student]["card_number"])
 
         return card_numbers
         
@@ -46,6 +46,22 @@ class APIService:
 
     def check_service(self):
         pass
+    
+    def get_student_entry_by_date(self, card_number, date):
+        url = self.url + "/students/" + card_number + "/card-entries/date/" + date.replace("-", "")
+        print(date)
+
+        response = requests.get(url, headers = self.headers)
+        
+        print(response.json())
+        
+        try:
+            response = response.json()
+        except:
+            return None
+                
+        return response
+
         
     def get_student_points(self, card_number):
         url = self.url + "/students/" + card_number + "/points/total"

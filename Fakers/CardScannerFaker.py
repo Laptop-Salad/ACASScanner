@@ -15,10 +15,10 @@ class CardScannerFaker:
         return time
 
     def generate_day(self, date):
-        students = []
         for card_number in self.card_numbers:
             points = self.api_service.get_student_points(card_number)
             print("New day", date)
+            
             #generate random time
             if points <= 100 and points > 75:
                  random_hour = 8
@@ -67,9 +67,6 @@ class CardScannerFaker:
                     random_minute = random.randrange(0,60)
             
             random_second = random.randrange(0,60)
-            
-            students.append([[random_hour, random_minute], points])
-
 
             #formating the time
             random_minute = self.format_time(random_minute)
@@ -79,36 +76,26 @@ class CardScannerFaker:
             
             self.scanner.scan_card(card_number, date, time)
             
-        return students
+            print(self.api_service.get_student_entry_by_date(card_number, date))
 
-
-    def generate(self, start_date, days_add):
+    def generate(self, start_date, days_add = 0):
         """Generate card entries for days_add amount of days
 
         Keyword arguments:
         start_date -- the day to start generating entries from (format "ddmmyyyy")
-        days_add -- how many days to generate card entries for
+        days_add -- how many days to generate card entries for (optional)
         """
         start_date = start_date
         begin_date = datetime.strptime(start_date, "%d%m%Y")
 
-        students = self.generate_day(begin_date)
-        average_time = [students]
-
+        # generate for first day
+        self.generate_day(begin_date)
+        
         for i in range (0, days_add):
             begin_date = begin_date + timedelta(days = 1)
             formatted_date = begin_date.strftime ("%d%m%Y")
-            students = self.generate_day(formatted_date)
-            for i in range(len(average_time)):
-                hour = students[i][0][0]
-                print(students[i][0][0])
-                minute = students[i][1][1]
-                average_time[i][0][0] = average_time[i][0][0] + hour
-                average_time[i][1][1] = average_time[i][1][1] + minute
+            self.generate_day(formatted_date)                
                 
-                
-
-        
         #self.generate_report.click_generate(students)
             
 
