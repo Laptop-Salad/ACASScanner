@@ -2,6 +2,7 @@
 import requests
 from dotenv import load_dotenv
 import os
+import json
 
 class APIService:
     def __init__(self):
@@ -69,6 +70,3 @@ class APIService:
         response = requests.get(url, headers = self.headers).json()
 
         return response['0']
-
-
-

@@ -13,7 +13,6 @@ class ReportGenerator(Consumer):
 
     def update(self, producer, *args):
         if isinstance(producer, GenerateReport):
-            print(producer.students)
             data_for_graph = producer.students
             report = {
                        "data": [

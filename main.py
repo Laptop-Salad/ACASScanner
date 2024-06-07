@@ -38,6 +38,6 @@ generate_report.add_subscriber(report_generator)
 
 ## Running faker for 4 days
 # In practice this would be wiring up our hardware listeners to the card producer
-scanner_faker.generate("31052024",1)
+scanner_faker.generate("31052024",4)
 
 ## Generating a report (todo: put in faker)

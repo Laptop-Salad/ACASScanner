@@ -10,11 +10,14 @@ class CardScannerFaker:
         self.generate_report = generate_report
 
     def format_time(self, time):
+        time = int(time)
         if time < 10:
             time = "0" + str(time)
         return time
 
     def generate_day(self, date):
+        students = []
+
         for card_number in self.card_numbers:
             points = self.api_service.get_student_points(card_number)
             print("New day", date)
@@ -67,17 +70,18 @@ class CardScannerFaker:
                     random_minute = random.randrange(0,60)
             
             random_second = random.randrange(0,60)
+            
+            students.append([random_hour, random_minute])
 
             #formating the time
             random_minute = self.format_time(random_minute)
             random_second = self.format_time(random_second)
-            date = str(date)
             time = "0" + str(random_hour)+str(random_minute)+ str(random_second)
             
             self.scanner.scan_card(card_number, date, time)
             
-            print(self.api_service.get_student_entry_by_date(card_number, date))
-
+        return students
+            
     def generate(self, start_date, days_add = 0):
         """Generate card entries for days_add amount of days
 
@@ -88,15 +92,32 @@ class CardScannerFaker:
         start_date = start_date
         begin_date = datetime.strptime(start_date, "%d%m%Y")
 
+        students = []
+        # student = [[hour, min]]
+
         # generate for first day
-        self.generate_day(begin_date)
-        
+        students = self.generate_day(begin_date.strftime("%d%m%Y"))
+
         for i in range (0, days_add):
             begin_date = begin_date + timedelta(days = 1)
-            formatted_date = begin_date.strftime ("%d%m%Y")
-            self.generate_day(formatted_date)                
+            new_students = self.generate_day(begin_date.strftime("%d%m%Y"))
+
+            for i in range(0, len(students)):
+                new_student = new_students[i]
+                student = students[i]
+                student[0] += new_student[0]
+                student[1] += new_student[1]
                 
-        #self.generate_report.click_generate(students)
+        # todo: move this logic into the reportgenerator
+
+        for i in range(0, len(students)):
+            student = students[i]
+            points = self.api_service.get_student_points(self.card_numbers[i])
+            hour = int(student[0] / (days_add + 1))
+            minute = int(student[1] / (days_add + 1))
+            students[i] = [[hour, minute], points]
+
+        self.generate_report.click_generate(students)
             
 
 
