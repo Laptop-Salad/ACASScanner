@@ -50,12 +50,9 @@ class APIService:
     
     def get_student_entry_by_date(self, card_number, date):
         url = self.url + "/students/" + card_number + "/card-entries/date/" + date.replace("-", "")
-        print(date)
 
         response = requests.get(url, headers = self.headers)
-        
-        print(response.json())
-        
+                
         try:
             response = response.json()
         except:
